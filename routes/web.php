@@ -19,3 +19,5 @@ Route::put('/update-user/{user}', [UserController::class, 'update'])->name('user
 
 Route::get('/edit-user/{user}/password', [UserController::class, 'editPassword'])->name('user.editPassword');
 Route::put('/update-user/{user}/password', [UserController::class, 'updatePassword'])->name('user.updatePassword');
+
+Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
