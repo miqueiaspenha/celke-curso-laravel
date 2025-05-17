@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,7 +21,10 @@
                 </div>
                 <ul class="list-nav-link">
                     <li>
-                        <a href="#" class="nav-link">Usuários</a>
+                        <a href="{{ route('user.index') }}" class="nav-link">Listar Usuários</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('user.create') }}" class="nav-link">Cadastrar Usuários</a>
                     </li>
                     <li>
                         <a href="{{ route('dashboard') }}" class="nav-link">Sair</a>
