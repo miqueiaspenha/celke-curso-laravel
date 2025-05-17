@@ -1,36 +1,37 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Cadastrar Usuário</h1>
+@extends('layouts.admin')
 
-    @if (session('success'))
-        <p style="color: #086">{{ session('success') }}</p>
-    @endif
+@section('content')
+    <div class="content">
+        <div class="content-title">
+            <h1 class="page-title">Cadastrar Usuário</h1>
+            <a href="#" class="btn-primary">Listar</a>
+        </div>
 
-    @if (session('error'))
-        <p style="color: #f00">{{ session('error') }}</p>
-    @endif
+        <x-alert />
 
-    <form action="{{ route('user.store') }}" method="POST">
-        @csrf
+        <form action="{{ route('user.store') }}" method="POST" class="form-container">
+            @csrf
 
-        <label for="name">Nome</label>
-        <input type="text" name="name" id="name" placeholder="Nome completo do usuário" value="{{ old('name') }}" required> <br><br>
+            <div class="mb-4">
+                <label for="name" class="form-label">Nome</label>
+                <input type="text" name="name" id="name" placeholder="Nome completo do usuário"
+                    value="{{ old('name') }}" required class="form-input">
+            </div>
 
-        <label for="email">E-mail</label>
-        <input type="email" name="email" id="email" placeholder="Melhor e-mail do usuário" value="{{ old('email') }}" required> <br><br>
+            <div class="mb-4">
+                <label for="email" class="form-label">E-mail</label>
+                <input type="email" name="email" id="email" placeholder="Melhor e-mail do usuário"
+                    value="{{ old('email') }}" required class="form-input">
+            </div>
 
-        <label for="password">Senha</label>
-        <input type="password" name="password" id="password" placeholder="Senha com no mínimo 6 caracteres" value="{{ old('password') }}" required> <br><br>
+            <div class="mb-4">
+                <label for="password" class="form-label">Senha</label>
+                <input type="password" name="password" id="password" placeholder="Senha com no mínimo 6 caracteres"
+                    value="{{ old('password') }}" required class="form-input">
+            </div>
 
-        <button type="submit">Cadastrar</button>
+            <button type="submit" class="btn-success">Cadastrar</button>
 
-    </form>
-</body>
-</html>
+        </form>
+    </div>
+@endsection

@@ -9,3 +9,84 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+@layer components {
+    /* Container principal */
+    .main-container {
+        @apply flex flex-col h-screen bg-gray-100;
+    }
+
+    /* Início Header */
+    /* Estilização do Header */
+    .header {
+        @apply bg-blue-700 text-white p-4 w-full;
+    }
+    
+    .content-header {
+        @apply max-w-6xl mx-auto flex items-center;
+    }
+
+    .title-logo {
+        @apply text-xl font-bold;
+    }
+
+    .list-nav-link {
+        @apply flex space-x-6 ml-6;
+    }
+
+    .nav-link {
+        @apply hover:text-gray-300 transition-colors;
+    }
+    /* Fim Header */
+
+    /* Ínicio conteúdo da página */
+    .content {
+        @apply flex-1 px-2 py-6 max-w-6xl mx-auto w-full;
+    }
+
+    .content-title {
+        @apply flex justify-between items-center mb-6;
+    }
+
+    .page-title {
+        @apply text-2xl;
+    }
+    /* Fim conteúdo da página */
+
+    /* Inicio Formulário */
+    .form-container {
+        @apply mt-6 bg-white shadow-md rounded-lg p-6
+    }
+
+    .form-label {
+        @apply block text-sm font-semibold
+    }
+
+    .form-input {
+        @apply border p-2 w-full mt-1 rounded-md border-blue-100 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:outline-none;
+    }
+    /* Fim Formulário */
+
+    /* Ínicio botões */
+    /* Botão azul */
+    .btn-primary {
+        @apply bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors;
+    }
+
+    .btn-success {
+        @apply p-2 mb-4 bg-green-500 text-white rounded-md hover:bg-green-600 cursor-pointer transition-colors;
+    }
+
+    /* Fim botões */
+
+    /* Ínicio Alertas */
+    /* Alerta Sucesso*/
+    .alert-success {
+        @apply p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-200;
+    }
+
+    .alert-error {
+        @apply p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-200;
+    }
+    /* Fim alertas */
+}
