@@ -26,7 +26,7 @@ class CreateUserRequest extends FormRequest
         return [
             'name' => ['required'],
             'email' => ['required', 'email', 'unique:users'],
-            'password' => ['required', 'password', 'min:6'],
+            'password' => ['required', 'min:6'],
         ];
     }
 
@@ -41,4 +41,13 @@ class CreateUserRequest extends FormRequest
     //         'password.min' => 'O campo de senha deve ter pelo menos :min caracteres.'
     //     ];
     // }
+
+    public function attributes(): array
+    {
+        return [
+            'name' => 'nome',
+            'email' => 'e-mail',
+            'password' => 'senha',
+        ];
+    }
 }

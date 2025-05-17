@@ -41,4 +41,12 @@ class UpdateUserRequest extends FormRequest
     //         'email.unique' => 'O e-mail já está cadastrado.',
     //     ];
     // }
+
+    public function attributes(): array
+    {
+        return [
+            'name' => 'nome',
+            'email' => 'e-mail'
+        ];
+    }
 }

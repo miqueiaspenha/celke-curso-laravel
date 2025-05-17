@@ -37,7 +37,7 @@
     }
 
     .list-nav-link {
-        @apply flex space-x-6 ml-6;
+        @apply flex space-x-6 ml-6 ;
     }
 
     .nav-link {
@@ -155,4 +155,21 @@
         @apply p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-200;
     }
     /* Fim alertas */
+
+    /* Detalhes */ 
+    .details-container {
+        @apply bg-white shadow-md rounded-lg p-6
+    }
+
+    .details-title {
+        @apply text-lg font-semibold mb-4
+    }
+
+    .details-data {
+        @apply text-gray-700 mb-1
+    }
+
+    .details-title-data {
+        @apply font-bold
+    }
 }

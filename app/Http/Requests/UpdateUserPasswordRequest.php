@@ -36,4 +36,11 @@ class UpdateUserPasswordRequest extends FormRequest
     //         'email.unique' => 'O e-mail já está cadastrado.',
     //     ];
     // }
+
+    public function attributes(): array
+    {
+        return [
+            'new_password' => 'nova senha'
+        ];
+    }
 }

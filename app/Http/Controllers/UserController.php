@@ -15,8 +15,13 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::orderByDesc('id')->paginate(1);
+        $users = User::orderByDesc('id')->paginate(3);
         return view('users.index', ['users' => $users]);
+    }
+
+    public function show(User $user)
+    {
+        return view('users.show', compact('user'));
     }
     
     public function create()
@@ -27,13 +32,13 @@ class UserController extends Controller
     public function store(CreateUserRequest $request)
     {
         try {
-            User::create([
+            $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => $request->password
             ]);
 
-            return redirect()->route('user.create')->with('success', 'Usuário cadastrado com sucessso!');
+            return redirect()->route('user.show', ['user' => $user])->with('success', 'Usuário cadastrado com sucessso!');
         }
         catch(Exception $ex)
         {
@@ -52,7 +57,7 @@ class UserController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
             ]);
-            return redirect()->route('user.edit', ['user' => $user])->with('success', 'Usuário atualizado com sucesso.');
+            return redirect()->route('user.show', ['user' => $user])->with('success', 'Usuário atualizado com sucesso.');
         }
         catch(Exception $ex)
         {
@@ -71,7 +76,7 @@ class UserController extends Controller
             $user->update([
                 'password' => Hash::make($request->password)
             ]);
-            return redirect()->route('user.editPassword', ['user' => $user])->with('success', 'Senha alterada com sucesso.');
+            return redirect()->route('user.show', ['user' => $user])->with('success', 'Senha alterada com sucesso.');
         }
         catch(Exception $ex)
         {

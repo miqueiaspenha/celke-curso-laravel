@@ -4,12 +4,15 @@
     <div class="content">
         <div class="content-title">
             <h1 class="page-title">Editar Senha</h1>
-            <a href="{{ route('user.index') }}" class="btn-info">Listar</a>
+            <div>
+                <a href="{{ route('user.index') }}" class="btn-info">Listar</a>
+                <a href="{{ route('user.show', ['user' => $user]) }}" class="btn-primary">Visualizar</a>
+            </div>
         </div>
 
         <x-alert />
 
-        <form action="{{ route('user.updatePassword', ['user' => $user->id]) }}" method="POST" class="form-container">
+        <form action="{{ route('user.updatePassword', ['user' => $user]) }}" method="POST" class="form-container">
             @csrf
             @method('PUT')
             
