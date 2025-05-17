@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\UpdateUserPasswordRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -55,6 +57,25 @@ class UserController extends Controller
         catch(Exception $ex)
         {
             return back()->withInput()->with('error', 'Usuário não editado!');
+        }
+    }
+
+    public function editPassword(User $user)
+    {
+        return view('users.edit_password', ['user' => $user]);
+    }
+
+    public function updatePassword(UpdateUserPasswordRequest $request, User $user)
+    {
+        try {
+            $user->update([
+                'password' => Hash::make($request->password)
+            ]);
+            return redirect()->route('user.editPassword', ['user' => $user])->with('success', 'Senha alterada com sucesso.');
+        }
+        catch(Exception $ex)
+        {
+            return back()->with('error', 'Senha não alterada!');
         }
     }
 }
