@@ -31,10 +31,10 @@
                             <td class="table-actions">
                                 <a href="{{ route('user.show', ['user' => $user]) }}" class="btn-primary">Visualizar</a>
                                 <a href="{{ route('user.edit', ['user' => $user]) }}" class="btn-warning">Editar</a>
-                                <form action="{{ route('user.destroy', ['user' => $user]) }}" method="POST">
+                                <form id="delete-form-{{ $user->id }}" action="{{ route('user.destroy', ['user' => $user]) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn-danger" onclick="return confirm('Deseja realmente deletar esse usuário?')">Apagar</button>
+                                    <button type="button" class="btn-danger" onclick="confirmDelete({{ $user->id }})">Apagar</button>
                                 </form>
                             </td>
                         </tr>
