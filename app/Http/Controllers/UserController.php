@@ -15,9 +15,20 @@ use Illuminate\Support\Facades\Mail;
 class UserController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::orderByDesc('id')->paginate(3);
+        // $users = User::orderByDesc('id')->paginate(3);
+
+        $users = User::when($request->filled('name'), fn($query) =>
+            $query->whereLike('name', '%' . $request->input('name') . '%')
+        )
+        ->when($request->filled('email'), fn($query) =>
+            $query->whereLike('email', '%' . $request->input('email') . '%')
+        )
+        ->orderByDesc('id')
+        ->paginate(1)
+        ->withQueryString();
+
         return view('users.index', ['users' => $users]);
     }
 
@@ -25,7 +36,7 @@ class UserController extends Controller
     {
         return view('users.show', compact('user'));
     }
-    
+
     public function create()
     {
         return view('users.create');
@@ -41,18 +52,18 @@ class UserController extends Controller
             ]);
 
             return redirect()->route('user.show', ['user' => $user])->with('success', 'Usuário cadastrado com sucessso!');
-        }
-        catch(Exception $ex)
-        {
+        } catch (Exception $ex) {
             return back()->withInput()->with('error', 'Usuário não cadastrado!');
         }
     }
 
-    public function edit(User $user) {
+    public function edit(User $user)
+    {
         return view('users.edit', ['user' => $user]);
     }
 
-    public function update(UpdateUserRequest $request, User $user) {
+    public function update(UpdateUserRequest $request, User $user)
+    {
 
         try {
             $user->update([
@@ -60,9 +71,7 @@ class UserController extends Controller
                 'email' => $request->email,
             ]);
             return redirect()->route('user.show', ['user' => $user])->with('success', 'Usuário atualizado com sucesso.');
-        }
-        catch(Exception $ex)
-        {
+        } catch (Exception $ex) {
             return back()->withInput()->with('error', 'Usuário não editado!');
         }
     }
@@ -79,9 +88,7 @@ class UserController extends Controller
                 'password' => Hash::make($request->password)
             ]);
             return redirect()->route('user.show', ['user' => $user])->with('success', 'Senha alterada com sucesso.');
-        }
-        catch(Exception $ex)
-        {
+        } catch (Exception $ex) {
             return back()->with('error', 'Senha não alterada!');
         }
     }
@@ -91,9 +98,7 @@ class UserController extends Controller
         try {
             $user->delete();
             return redirect()->route('user.index')->with('success', 'Usuários deletado com sucesso.');
-        }
-        catch(Exception $ex)
-        {
+        } catch (Exception $ex) {
             return redirect()->route('user.index')->with('error', 'Usuário não excluído.');
         }
     }
@@ -109,14 +114,12 @@ class UserController extends Controller
 
             Mail::to($user->email)->send(new \App\Mail\UserPdfMail($pdfPath, $user));
 
-            if(file_exists($pdfPath)) {
+            if (file_exists($pdfPath)) {
                 unlink($pdfPath);
             }
 
             return redirect()->route('user.show', ['user' => $user])->with('success', 'PDF enviado para o e-mail do usuário com sucesso.');
-        }
-        catch(Exception $ex)
-        {
+        } catch (Exception $ex) {
             dd($ex->getMessage());
             return redirect()->route('user.show', ['user' => $user])->with('error', 'Erro ao gerar o PDF.');
         }

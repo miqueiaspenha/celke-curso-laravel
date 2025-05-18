@@ -124,27 +124,27 @@
     /* Início botões */
     /* Botão azul */
     .btn-primary {
-        @apply p-2 mb-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors;
+        @apply p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors;
     }
 
     /* Botão azul claro */
     .btn-info {
-        @apply p-2 mb-4 bg-cyan-500 text-white rounded-md hover:bg-cyan-600 transition-colors;
+        @apply p-2 bg-cyan-500 text-white rounded-md hover:bg-cyan-600 transition-colors;
     }
 
     /* Botão verde */
     .btn-success {
-        @apply p-2 mb-4 bg-green-500 text-white rounded-md hover:bg-green-600 cursor-pointer transition-colors;
+        @apply p-2 bg-green-500 text-white rounded-md hover:bg-green-600 cursor-pointer transition-colors;
     }
 
     /* Botão amarelo */
     .btn-warning {
-        @apply p-2 mb-4 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 cursor-pointer transition-colors;
+        @apply p-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 cursor-pointer transition-colors;
     }
 
     /* Botão vermelho */
     .btn-danger {
-        @apply p-2 mb-4 bg-red-500 text-white rounded-md hover:bg-red-600 cursor-pointer transition-colors;
+        @apply p-2 bg-red-500 text-white rounded-md hover:bg-red-600 cursor-pointer transition-colors;
     }
 
     /* Fim botões */

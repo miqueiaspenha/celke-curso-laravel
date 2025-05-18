@@ -12,6 +12,16 @@
 
         <x-alert />
 
+        <form class="pb-2 grid xl:grid-cols-5 md:grid-cols-2 gap-2 items-end">
+            <input type="text" name="name" id="name" class="form-input" placeholder="Informe o nome" value="{{ request('name') }}">
+            <input type="text" name="email" id="email" class="form-input" placeholder="Informe o email" value="{{ request('email') }}">
+
+            <div class="flex gap-1">
+                <button type="submit" class="btn-primary">Pesquisar</button>
+                <a href="{{ route('user.index') }}" class="btn-warning">Limpar</a>
+            </div>
+        </form>
+
         <div class="table-container">
             <table class="table">
                 <thead>
