@@ -5,6 +5,7 @@
         <div class="content-title">
             <h1 class="page-title">Detalhes do Usuário</h1>
             <div class="page-submenu">
+                <a href="{{ route('user.generatePdf', ['user' => $user]) }}" class="btn-primary">Gerar PDF</a>
                 <a href="{{ route('user.index') }}" class="btn-info">Listar</a>
                 <a href="{{ route('user.edit', ['user' => $user]) }}" class="btn-warning">Editar</a>
                 <a href="{{ route('user.editPassword', ['user' => $user]) }}" class="btn-warning">Editar Senha</a>
