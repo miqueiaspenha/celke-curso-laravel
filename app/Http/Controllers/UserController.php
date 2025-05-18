@@ -10,6 +10,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -99,8 +100,25 @@ class UserController extends Controller
 
     public function generatePdf(User $user)
     {
-        $pdf = Pdf::loadView('users.generate_pdf', ['user' => $user]);
-        $pdf->setPaper('A4', 'portrait');
-        return $pdf->download("user_{$user->name}_".date('YmdHis').".pdf");
+        try {
+            $pdf = Pdf::loadView('users.generate_pdf', ['user' => $user]);
+            $pdf->setPaper('A4', 'portrait');
+
+            $pdfPath = storage_path('app/public/user_' . $user->id . '.pdf');
+            $pdf->save($pdfPath);
+
+            Mail::to($user->email)->send(new \App\Mail\UserPdfMail($pdfPath, $user));
+
+            if(file_exists($pdfPath)) {
+                unlink($pdfPath);
+            }
+
+            return redirect()->route('user.show', ['user' => $user])->with('success', 'PDF enviado para o e-mail do usuário com sucesso.');
+        }
+        catch(Exception $ex)
+        {
+            dd($ex->getMessage());
+            return redirect()->route('user.show', ['user' => $user])->with('error', 'Erro ao gerar o PDF.');
+        }
     }
 }
