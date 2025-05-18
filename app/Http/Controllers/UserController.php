@@ -9,8 +9,10 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Svg\Tag\Rect;
 
 class UserController extends Controller
 {
@@ -188,6 +190,76 @@ class UserController extends Controller
             //     'end_date_registration' => $request->end_date_registration,
             // ])->with('error', 'Ocorreu um erro ao gerar o PDF');
             return back()->withInput()->with('error', 'Ocorreu um erro ao gerar o PDF');
+        }
+    }
+
+    function generateCsvUsers(Request $request)
+    {
+        try {
+            $users = User::when(
+                $request->filled('name'),
+                fn($query) =>
+                $query->whereLike('name', '%' . $request->input('name') . '%')
+            )
+                ->when(
+                    $request->filled('email'),
+                    fn($query) =>
+                    $query->whereLike('email', '%' . $request->input('email') . '%')
+                )
+                ->when(
+                    $request->filled('start_date_registration'),
+                    fn($query) =>
+                    $query->where('created_at', '>=', \Carbon\Carbon::parse($request->input('start_date_registration')))
+                )
+                ->when(
+                    $request->filled('end_date_registration'),
+                    fn($query) =>
+                    $query->where('created_at', '<=', \Carbon\Carbon::parse($request->input('end_date_registration')))
+                )
+                ->orderByDesc('name')
+                ->get();
+
+            $totalRecords = $users->count('id');
+            $numbersRecordsAllowed = 2;
+
+            if ($totalRecords > $numbersRecordsAllowed) {
+                return redirect()->route('user.index', [
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'start_date_registration' => $request->start_date_registration,
+                    'end_date_registration' => $request->end_date_registration,
+                ])->with('error', "O limite máximo de registros por CSV é de {$numbersRecordsAllowed}. Diminua a quantidade de registros.");
+            }
+            
+            $csvFileName = tempnam(sys_get_temp_dir(), 'csv_' . Str::ulid());
+
+            $openFile = fopen($csvFileName, 'w');
+
+            $header = ['Id', 'Nome', 'Email', 'Data de cadastro'];
+
+            fputcsv($openFile, $header, ';');
+
+            foreach($users as $user){
+                $userArray = [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'created_at' => $user->created_at->format('d/m/Y H:i:s'),
+                ];
+                fputcsv($openFile, $userArray, ';');
+            }
+
+            fclose($openFile);
+
+            return response()->download($csvFileName, 'lista_usuarios' . Str::ulid() . '.csv');
+        } catch (Exception $ex) {
+            // return redirect()->route('user.index', [
+            //     'name' => $request->name,
+            //     'email' => $request->email,
+            //     'start_date_registration' => $request->start_date_registration,
+            //     'end_date_registration' => $request->end_date_registration,
+            // ])->with('error', 'Ocorreu um erro ao gerar o PDF');
+            return back()->withInput()->with('error', 'Ocorreu um erro ao gerar o CSV');
         }
     }
 }

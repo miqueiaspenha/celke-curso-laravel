@@ -24,3 +24,5 @@ Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user.de
 
 Route::get('/user/{user}/generate-pdf', [UserController::class, 'generatePdf'])->name('user.generatePdf');
 Route::get('/user/generate-pdf', [UserController::class, 'generatePdfUsers'])->name('user.generatePdfUsers');
+
+Route::get('/users/generate-csv', [UserController::class, 'generateCsvUsers'])->name('users.generateCsvUsers');

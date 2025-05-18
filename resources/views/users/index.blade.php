@@ -6,8 +6,9 @@
         <div class="content-title">
             <h1 class="page-title">Listar Usuários</h1>
             <div>
-                <a href="{{ url('user/generate-pdf/') . (request()->getQueryString() ? '?' . request()->getQueryString() : '' ) }}" class="btn-warning">Gerar PDF</a>
                 <a href="{{ route('user.create') }}" class="btn-success">Cadastrar</a>
+                <a href="{{ url('user/generate-pdf/') . (request()->getQueryString() ? '?' . request()->getQueryString() : '' ) }}" class="btn-warning">Gerar PDF</a>
+                <a href="{{ route('users.generateCsvUsers', request()->query()) }}" class="btn-success">Gerar CSV</a>
             </div>
         </div>
 
