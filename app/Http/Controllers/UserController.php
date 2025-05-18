@@ -25,8 +25,14 @@ class UserController extends Controller
         ->when($request->filled('email'), fn($query) =>
             $query->whereLike('email', '%' . $request->input('email') . '%')
         )
+        ->when($request->filled('start_date_registration'), fn($query) =>
+            $query->where('created_at', '>=', \Carbon\Carbon::parse($request->input('start_date_registration')))
+        )
+        ->when($request->filled('end_date_registration'), fn($query) =>
+            $query->where('created_at', '<=', \Carbon\Carbon::parse($request->input('end_date_registration')))
+        )
         ->orderByDesc('id')
-        ->paginate(1)
+        ->paginate(3)
         ->withQueryString();
 
         return view('users.index', ['users' => $users]);

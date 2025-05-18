@@ -16,6 +16,9 @@
             <input type="text" name="name" id="name" class="form-input" placeholder="Informe o nome" value="{{ request('name') }}">
             <input type="text" name="email" id="email" class="form-input" placeholder="Informe o email" value="{{ request('email') }}">
 
+            <input type="datetime-local" name="start_date_registration" id="start_date_registration" class="form-input" value="{{ request('start_date_registration') }}">
+            <input type="datetime-local" name="end_date_registration" id="end_date_registration" class="form-input" value="{{ request('end_date_registration') }}">
+
             <div class="flex gap-1">
                 <button type="submit" class="btn-primary">Pesquisar</button>
                 <a href="{{ route('user.index') }}" class="btn-warning">Limpar</a>
