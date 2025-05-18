@@ -3,7 +3,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             Swal.fire({
                 title: "Pronto!",
-                text: "{{ session('success') }}",
+                html: "{!! session('success') !!}",
                 icon: "success"
             });
         });
@@ -16,7 +16,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             Swal.fire({
                 title: "Erro!",
-                text: "{{ session('error') }}",
+                html: "{!! session('error') !!}",
                 icon: "error"
             });
         });

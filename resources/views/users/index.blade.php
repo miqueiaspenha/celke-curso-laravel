@@ -8,11 +8,22 @@
             <div>
                 <a href="{{ route('user.create') }}" class="btn-success">Cadastrar</a>
                 <a href="{{ url('user/generate-pdf/') . (request()->getQueryString() ? '?' . request()->getQueryString() : '' ) }}" class="btn-warning">Gerar PDF</a>
-                <a href="{{ route('users.generateCsvUsers', request()->query()) }}" class="btn-success">Gerar CSV</a>
+                <a href="{{ route('user.generateCsvUsers', request()->query()) }}" class="btn-success">Gerar CSV</a>
             </div>
         </div>
 
         <x-alert />
+
+        <form class="pb3 grid xl:grid-cols-5 md:grid-cols-2 gap-2 items-end" action="{{ route('user.import-csv-user') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+
+            <label class="form-input cursor-pointer flex items-center justify-center bg-white text-gray-700 hover:bg-blue-50">
+                <span>Escolher Arquivo</span>
+                <input type="file" name="file" id="file" class="hidden" accept=".csv">
+            </label>
+
+            <button type="submit" class="btn-success">Importar</button>
+        </form>
 
         <form class="pb-2 grid xl:grid-cols-5 md:grid-cols-2 gap-2 items-end">
             <input type="text" name="name" id="name" class="form-input" placeholder="Informe o nome" value="{{ request('name') }}">
