@@ -6,6 +6,7 @@
         <div class="content-title">
             <h1 class="page-title">Listar Usuários</h1>
             <div>
+                <a href="{{ url('user/generate-pdf/') . (request()->getQueryString() ? '?' . request()->getQueryString() : '' ) }}" class="btn-warning">Gerar PDF</a>
                 <a href="{{ route('user.create') }}" class="btn-success">Cadastrar</a>
             </div>
         </div>
