@@ -12,7 +12,7 @@
     <p>Seja bem-vindo ao nosso sistema.</p>
 
     <p>Seu login: {{ $user->email }}</p>
-    <p>Sua senha: {{ $user->password }}</p>
+    <p>Sua senha: {{ $password }}</p>
 
     <p>Por favor, altere sua senha após o primeiro login.</p>
 </body>

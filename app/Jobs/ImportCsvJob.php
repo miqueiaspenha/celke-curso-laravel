@@ -4,9 +4,11 @@ namespace App\Jobs;
 
 use App\Mail\WelcomeUserMail;
 use App\Models\User;
+use Exception;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use League\Csv\Reader;
@@ -65,6 +67,11 @@ class ImportCsvJob implements ShouldQueue
                 'password' => $password,
             ]);
 
+            Log::info('User: ' . $user->name);
+            Log::info('Email: ' . $user->email);
+            Log::info('Password: ' . $password);
+
+
             // Mail::to($email)->send(new WelcomeUserMail($user, $password));
 
             // Mail::to($email)->queue(new WelcomeUserMail($user, $password));
@@ -88,5 +95,10 @@ class ImportCsvJob implements ShouldQueue
         //     User::insert($batchInsert);
         //     $batchInsert = [];
         // }
+    }
+
+    public function failed(Exception $exception)
+    {
+        Log::error('Job falhou: ' . $exception->getMessage());
     }
 }
