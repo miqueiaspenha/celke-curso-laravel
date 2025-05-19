@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ImportCsvJob;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -23,52 +24,13 @@ class ImportCsvUserController extends Controller
                 'file.max' => 'O tamanho do arquivo execede :max Mb',
             ]);
 
-            $headers = ['name', 'email', 'password'];
+            $fileName = 'import-' . now()->format('Y-m-d-H-i-s') . '.csv';
 
-            $fileData = array_map('str_getcsv', file($request->file('file')));
+            $path = $request->file('file')->storeAs('uploads', $fileName);
 
-            $separator = ';';
+            ImportCsvJob::dispatch($path);
 
-            $arrayValues = [];
-
-            $duplicatedEmails = [];
-
-            $numberRegisteredRecords = 0;
-
-            foreach($fileData as $row) {
-                $values = explode($separator, $row[0]);
-
-                if(count($values) !== count($headers)) {
-                    continue;
-                }
-
-                $userData = array_combine($headers, $values);
-
-                $emailExists = User::where('email', $userData['email'])->exists();
-
-                if($emailExists){
-                    $duplicatedEmails[] = $userData['email'];
-                    continue;
-                }
-
-                $arrayValues[] = [
-                    'name' => $userData['name'],
-                    'email' => $userData['email'],
-                    'password' => Hash::make(Str::random(7), ['rounds' => 12]),
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ];
-
-                $numberRegisteredRecords++;
-            }
-
-            if(!empty($duplicatedEmails)) {
-                return back()->withInput()->with('error', 'Dados não importados. Existem e-mails já cadastrados: <br> ' . implode('<br>', $duplicatedEmails));
-            }
-
-            User::insert($arrayValues);
-
-            return back()->withInput()->with('success', 'Dados insridos com sucesso. <br> Quantidade: ' . $numberRegisteredRecords);
+            return back()->withInput()->with('success', 'Os dados estão sendo importados.');
         }
         catch(Exception $ex)
         {

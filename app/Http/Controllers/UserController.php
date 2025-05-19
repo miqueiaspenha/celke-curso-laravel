@@ -17,6 +17,8 @@ use Svg\Tag\Rect;
 class UserController extends Controller
 {
 
+    const ITENS_PAR_PAGE = 20;
+
     public function index(Request $request)
     {
         // $users = User::orderByDesc('id')->paginate(3);
@@ -42,7 +44,7 @@ class UserController extends Controller
                 $query->where('created_at', '<=', \Carbon\Carbon::parse($request->input('end_date_registration')))
             )
             ->orderByDesc('id')
-            ->paginate(3)
+            ->paginate(self::ITENS_PAR_PAGE)
             ->withQueryString();
 
         return view('users.index', ['users' => $users]);
@@ -230,7 +232,7 @@ class UserController extends Controller
                     'end_date_registration' => $request->end_date_registration,
                 ])->with('error', "O limite máximo de registros por CSV é de {$numbersRecordsAllowed}. Diminua a quantidade de registros.");
             }
-            
+
             $csvFileName = tempnam(sys_get_temp_dir(), 'csv_' . Str::ulid());
 
             $openFile = fopen($csvFileName, 'w');
