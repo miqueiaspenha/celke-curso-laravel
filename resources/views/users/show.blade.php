@@ -37,11 +37,11 @@
             </div>
             <div class="details-data">
                 <span class="details-title-data">Criado em:</span>
-                <span>{{ $user->created_at->format('d/m/Y H:i:s') }}</span>
+                <span>{{ \Carbon\Carbon::parse($user->created_at)->format('d/m/Y H:i:s') }}</span>
             </div>
             <div class="details-data">
                 <span class="details-title-data">Atualizado em:</span>
-                <span>{{ $user->updated_at->format('d/m/Y H:i:s') }}</span>
+                <span>{{ \Carbon\Carbon::parse($user->updated_at)->format('d/m/Y H:i:s') }}</span>
             </div>
         </div>
     </div>
